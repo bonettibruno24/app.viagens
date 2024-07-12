@@ -8,7 +8,7 @@ interface InviteGuestsModalProps{
     removeEmailFromInvite: (email: string) => void
 }
 
-
+// destruturação em sob um objeto que irá declarar para funções
 export function InviteGuestsModal({addNewEmailInvite, closeGuestesModal, emailsToInvite, removeEmailFromInvite}:InviteGuestsModalProps) {
     
     return (
