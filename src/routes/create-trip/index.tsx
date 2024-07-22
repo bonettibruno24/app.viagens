@@ -1,19 +1,24 @@
-import { MapPin, Calendar, ArrowRight, UserRoundPlus } from 'lucide-react'
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { InviteGuestsModal } from './invite-guests-modal'
 import { ConfirmTripModal } from './confirm-trip-modal'
 import { DestinationEndDateStaps } from './steps/destination-end-date-stap'
 import { InviteGuestsStaps } from './steps/invite-guests-stap'
+import { DateRange } from 'react-day-picker'
+import { api } from '../../lib/axios'
 
 
-export function Createtrip() {
+export function CreatetripPages() {
     const navigate = useNavigate()
 
     const [isGuestsInputOpen, SetIsGuestsInputOpen] = useState(false)
     const [isGuestsModalOpen, SetIsGuestsModalOpen] = useState(false)
     const [isConfirmTripModalOpen, SetIsConfigTripModalOpen] = useState(false)
 
+    const [destination, setDestination] = useState('')
+    const [ownerName, setOwnerName] = useState('')
+    const [ownerEmail, setOwnerEmail] = useState('')
+    const [eventStartEventDates, setEventStartEventDates] = useState<DateRange | undefined>()
 
 
     const [emailsToInvite, SetEmailsToEnvite] = useState([
@@ -72,10 +77,44 @@ export function Createtrip() {
         SetIsGuestsModalOpen(false);
     }
 
-
-    function createTrip(event: FormEvent<HTMLFormElement>) {
+    async function createTrip(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        navigate('/trips/123')
+
+        console.log(destination)
+        console.log(ownerName)
+        console.log(ownerEmail)
+        console.log(eventStartEventDates)
+        console.log(emailsToInvite)
+
+        if (!destination) {
+            return
+        }
+        if (!eventStartEventDates?.from || !eventStartEventDates?.to) {
+            return
+        }
+
+        if (emailsToInvite.length === 0) {
+            return
+        }
+        if (!ownerName || !ownerEmail) {
+            return
+        }
+        const response = await api.post('/trips', {
+            destination,
+            starts_at: eventStartEventDates?.from,
+            ends_at: eventStartEventDates?.to,
+            emails_to_invite: emailsToInvite,
+            owner_name: ownerName,
+            owner_email: ownerEmail,
+            
+        })
+
+        console.log('teste na api', response.data)
+
+        const {tripId} = response.data
+
+        navigate(`/trips/${tripId}`)
+        
     }
 
     return (
@@ -89,7 +128,11 @@ export function Createtrip() {
                     <DestinationEndDateStaps
                         closeGuestsInput={closeGuestsInput}
                         isGuestsInputOpen={isGuestsInputOpen}
+                        eventStartEventDates={eventStartEventDates}
                         openGuestsImput={openGuestsImput}
+                        setDestination={setDestination}
+                        setEventStartEventDates={setEventStartEventDates}
+
                     />
 
                     {isGuestsInputOpen && (
@@ -117,6 +160,8 @@ export function Createtrip() {
                 <ConfirmTripModal
                     closeConfirmTripModal={closeConfirmTripModal}
                     createTrip={createTrip}
+                    setOwnerName={setOwnerName}
+                    setOwnerEmail={setOwnerEmail}
                 />
             )}
         </div>
