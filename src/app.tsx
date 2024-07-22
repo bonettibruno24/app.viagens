@@ -3,13 +3,13 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Createtrip } from "./routes/create-trip";
+import { CreatetripPages } from "./routes/create-trip";
 import { TripDetailsPage } from "./routes/trip-details";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Createtrip />,
+    element: <CreatetripPages/>,
   },
   {
     path: "/trips/:tripId",
@@ -19,7 +19,11 @@ const router = createBrowserRouter([
 
 
 export function App() {
-  return  <RouterProvider router={router} />
+  return (
+  <RouterProvider
+   router={router}
+    />
+  )
 }
 
 

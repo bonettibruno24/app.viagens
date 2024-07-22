@@ -1,10 +1,10 @@
 import { Calendar, CircleCheck, CircleDashed, Link2, MapPin, Plus, Settings2, Tag, Timer, UserCog, X } from "lucide-react";
 import { useState } from "react";
-import { CreateAcitivityModal } from "./create-acitivity-modal";
 import { ImportantLinks } from "./importat-links";
 import { Activites } from "./activites";
 import { Guests } from "./guests";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
+import { CreateAcitivityModal } from "./create-acitivity-modal";
 
 
 
@@ -12,11 +12,11 @@ export function TripDetailsPage() {
 
     const [isCreateActivityModalOpen, setisCreateActivityModalOpen] = useState(false)
 
-    function openActivityModal() {
-        setisCreateActivityModalOpen(true)
-    }
     function closeActivityModal() {
         setisCreateActivityModalOpen(false)
+    }
+    function openActivityModal(){
+        setisCreateActivityModalOpen(true)
     }
 
     return (
@@ -24,7 +24,7 @@ export function TripDetailsPage() {
             <DestinationAndDateHeader />
             <main className="flex gap-16 px-4">
                 <Activites
-                    openActivityModal={openActivityModal}
+                openActivityModal={openActivityModal}
                 />
                 <div className="w-80 space-y-6">
                     <ImportantLinks />
@@ -33,13 +33,11 @@ export function TripDetailsPage() {
                     <Guests />
                 </div>
             </main>
-            {isCreateActivityModalOpen && (
+                {isCreateActivityModalOpen &&
                 <CreateAcitivityModal
-                    closeActivityModal={closeActivityModal}
+                closeActivityModal={closeActivityModal}
                 />
-
-            )}
-
+}
         </div>
     )
 }
