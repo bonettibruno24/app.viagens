@@ -1,5 +1,5 @@
 import { Settings2 } from "lucide-react";
-import { Children, ComponentProps, ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 
 import {tv, VariantProps} from 'tailwind-variants'
 
@@ -25,7 +25,6 @@ const ButtonVariants = tv({
 
 interface ButtonProps extends ComponentProps<'button'>, VariantProps<typeof ButtonVariants> {
     children: ReactNode
-    
 }
 
 export function Button({ children, size, variant, ...props}: ButtonProps){
